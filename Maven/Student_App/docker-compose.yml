@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  database:
+    build: ./Database
+    container_name: student_db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: student_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: adminpassword
+
+  backend:
+    build: ./Backend
+    container_name: student_backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://database:3306/student_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: adminpassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - database
+
+  frontend:
+    build: ./Frontend
+    container_name: student_frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
