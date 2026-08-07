@@ -13,7 +13,6 @@ services:
       MYSQL_PASSWORD: adminpassword
 
   backend:
-    build: ./Backend
     container_name: student_backend
     ports:
       - "8080:8080"
