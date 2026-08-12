@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: b-deployment
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: myapp
+      version: b
+
+  template:
+    metadata:
+      labels:
+        app: myapp
+        version: b
+    spec:
+      containers:
+        - name: b-container
+          image: ishika979/super-mario:latest
+          ports:
+            - containerPort: 80
