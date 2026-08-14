@@ -1,0 +1,29 @@
+# CRD Installation Commands (run these first if VPA CRDs are not installed):
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/master/vertical-pod-autoscaler/deploy/vpa-v1-crd-gen.yaml
+#
+# Or for minikube:
+# minikube addons enable metrics-server
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/master/vertical-pod-autoscaler/deploy/vpa-v1-crd-gen.yaml
+
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: myapp-vpa
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: myapp-deployment
+
+  updatePolicy:
+    updateMode: "Auto"
+    
+  resourcePolicy:
+    containerPolicies:
+    - containerName: myapp-container
+      minAllowed:
+        cpu: 100m
+        memory: 128Mi
+      maxAllowed:
+        cpu: 500m
+        memory: 512Mi
