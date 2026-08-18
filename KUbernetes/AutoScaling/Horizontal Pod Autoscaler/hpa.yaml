@@ -22,12 +22,10 @@ spec:
 
 # Command to increase the HPA : kubectl autoscale deployment myapp-deployment --cpu-percent=50 --min=1 --max=10
 
-'''
+
 # Get pod names
-kubectl get pods -l app=myapp
+# kubectl get pods -l app=myapp
 
 # Exec into a pod and generate CPU stress
-kubectl exec -it <pod-name> -- /bin/bash
+ # kubectl exec -it <pod-name> -- /bin/bash
 # Inside: apt-get update && apt-get install -y stress && stress --cpu 2 --timeout 300s
-
-'''
