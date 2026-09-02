@@ -15,3 +15,15 @@ variable "s3_bucket_tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "project_name" {
+  description = "The name of the project"
+  type        = string
+  default     = "my-project"
+}
+
+variable "environment" {
+  description = "The environment to deploy resources"
+  type        = string
+  default     = "dev"
+}

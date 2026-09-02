@@ -42,8 +42,13 @@ resource "aws_internet_gateway" "main" {
   )
 }
 
+resource "aws_eip" "nat" {
+  domain = "vpc"
+}
+
 resource "aws_nat_gateway" "main" {
-  subnet_id = aws_subnet.public.id
+  allocation_id = aws_eip.nat.id
+  subnet_id     = aws_subnet.public.id
   tags = merge(
     var.vpc_tags,
     {
@@ -95,15 +100,36 @@ resource "aws_route_table_association" "private" {
 }
 
 resource "aws_security_group" "main" {
-  name = var.security_group_name
+  name        = var.security_group_name
   description = var.security_group_description
-  vpc_id = aws_vpc.main.id
+  vpc_id      = aws_vpc.main.id
   tags = merge(
     var.security_group_tags,
     {
       Name = "${var.project_name}-${var.environment}-security-group"
     }
   )
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 
