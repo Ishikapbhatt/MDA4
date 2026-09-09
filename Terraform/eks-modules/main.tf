@@ -28,7 +28,6 @@ module "eks" {
   source = "./eks"
 
   eks_cluster_name = var.cluster_name
-  eks_cluster_version = var.cluster_version
   eks_cluster_endpoint_private = var.eks_cluster_endpoint_private
   eks_cluster_endpoint_public = var.eks_cluster_endpoint_public
   eks_cluster_endpoint_public_access_cidrs = var.eks_cluster_endpoint_public_access_cidrs

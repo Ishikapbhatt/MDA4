@@ -4,11 +4,6 @@ variable "cluster_name" {
   default     = "my-eks-cluster"
 }
 
-variable "cluster_version" {
-  description = "Kubernetes version for the EKS cluster"
-  type        = string
-  default     = "1.27"
-}
 
 variable "eks_cluster_endpoint_private" {
   description = "Whether the EKS cluster has private endpoint"

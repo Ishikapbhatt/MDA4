@@ -9,6 +9,7 @@ resource "aws_subnet" "public" {
   vpc_id     = aws_vpc.main.id
   cidr_block = var.public_subnets[0]
   availability_zone = var.availability_zones[0]
+  map_public_ip_on_launch = true
   tags = {
     Name = "${var.project_name}-public-subnet"
   }
@@ -30,9 +31,18 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
+resource "aws_eip" "nat" {
+  count = var.nat_gateway ? 1 : 0
+  domain = "vpc"
+  tags = {
+    Name = "${var.project_name}-nat-eip"
+  }
+}
+
 resource "aws_nat_gateway" "main" {
   count = var.nat_gateway ? 1 : 0
   subnet_id = aws_subnet.public.id
+  allocation_id = aws_eip.nat[0].id
   tags = {
     Name = "${var.project_name}-nat"
   }

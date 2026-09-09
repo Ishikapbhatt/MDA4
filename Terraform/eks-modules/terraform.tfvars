@@ -12,12 +12,11 @@ tags = {
   Environment = "dev"
 }
 
-eks_cluster_role_name = "my-iam-role"
-eks_node_group_role_name = "my-iam-role"
+eks_cluster_role_name = "eks-cluster-role"
+eks_node_group_role_name = "eks-node-group-role"
 instance_profile_name = "my-instance-profile"
 
 cluster_name = "my-eks-cluster"
-cluster_version = "1.27"
 eks_cluster_endpoint_private = true
 eks_cluster_endpoint_public = true
 eks_cluster_endpoint_public_access_cidrs = ["0.0.0.0/0"]
