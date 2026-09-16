@@ -3,7 +3,7 @@ FROM ubuntu:latest
 LABEL dev="Ishika"
 
 RUN apt-get update && \
-    apt-get install -y default-jdk unzip curl && \
+    apt-get install -y default-jdk unzip curl wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -11,7 +11,7 @@ ENV TOMCAT_VERSION=9.0.91
 ENV CATALINA_HOME=/opt/tomcat
 ENV PATH="$PATH:$CATALINA_HOME/bin"
 
-RUN curl -O https://downloads.apache.org/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz && \
+RUN wget --no-check-certificate https://archive.apache.org/dist/tomcat/tomcat-9/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
     mkdir -p $CATALINA_HOME && \
     tar xzf apache-tomcat-$TOMCAT_VERSION.tar.gz -C $CATALINA_HOME --strip-components=1 && \
     rm apache-tomcat-$TOMCAT_VERSION.tar.gz 
