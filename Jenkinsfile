@@ -32,22 +32,22 @@ pipeline {
         stage('Build') {
             steps {
                 dir('docker/studentapp/database') {
-                    sh 'docker build -t ${REGISTRY}/studentapp-db:latest .'
+                    sh 'docker buildx build --platform linux/amd64 -t ${REGISTRY}/studentapp-db:latest --load .'
                 }
                 dir('docker/studentapp/backend') {
-                    sh 'docker build -t ${REGISTRY}/studentapp-be:latest .'
+                    sh 'docker buildx build --platform linux/amd64 -t ${REGISTRY}/studentapp-be:latest --load .'
                 }
                 dir('docker/studentapp/frontend') {
-                    sh 'docker build -t ${REGISTRY}/studentapp-fe:latest .'
+                    sh 'docker buildx build --platform linux/amd64 -t ${REGISTRY}/studentapp-fe:latest --load .'
                 }
             }
         }
 
         stage('Push stage') {
             steps {
-                sh 'docker push ${REGISTRY}/studentapp-db:latest'
-                sh 'docker push ${REGISTRY}/studentapp-be:latest'
-                sh 'docker push ${REGISTRY}/studentapp-fe:latest'
+                sh 'docker buildx build --platform linux/amd64 -t ${REGISTRY}/studentapp-db:latest --push docker/studentapp/database'
+                sh 'docker buildx build --platform linux/amd64 -t ${REGISTRY}/studentapp-be:latest --push docker/studentapp/backend'
+                sh 'docker buildx build --platform linux/amd64 -t ${REGISTRY}/studentapp-fe:latest --push docker/studentapp/frontend'
             }
         }
 
