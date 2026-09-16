@@ -7,6 +7,10 @@ pipeline {
         aws_secret_key = credentials('aws-secret-key')
     }
 
+    options {
+        skipDefaultCheckout true
+    }
+
     stages {
         stage('Pull stage') {
             steps {
