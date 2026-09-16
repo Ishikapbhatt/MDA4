@@ -1,45 +1,58 @@
-    pipeline {
-        agent any
-        
-        stages {
-            stage "Pull stage" {
-                steps {
-                    sh 'git clone https://github.com/Ishikapbhatt/MDA4.git'
-                }
-            }
+pipeline {
+    agent any
 
-            stage "Infrastructure" {
-                steps {
-                    sh 'cd Terraform/eks-modules'
+    environment {
+        REGISTRY = 'docker.io/yourusername'
+        aws_access_key = credentials('aws-access-key')
+        aws_secret_key = credentials('aws-secret-key')
+    }
+
+    stages {
+        stage "Pull stage" {
+            steps {
+                git url: 'https://github.com/Ishikapbhatt/MDA4.git', branch: 'main'
+            }
+        }
+
+        stage "Infrastructure" {
+            steps {
+                dir('Terraform/eks-modules') {
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve'
                 }
             }
+        }
 
-            stage "Build" {
-                steps {
-                    sh 'cd docker/student-app/database'
-                    sh 'docker build -t studentapp-db .'
-                    sh 'cd ../backend'
-                    sh 'docker build -t studentapp-be .'
-                    sh 'cd ../frontend'
-                    sh 'docker build -t studentapp-fe .'
+        stage "Build" {
+            steps {
+                dir('docker/studentapp/database') {
+                    sh 'docker build -t ${REGISTRY}/studentapp-db:latest .'
+                }
+                dir('docker/studentapp/backend') {
+                    sh 'docker build -t ${REGISTRY}/studentapp-be:latest .'
+                }
+                dir('docker/studentapp/frontend') {
+                    sh 'docker build -t ${REGISTRY}/studentapp-fe:latest .'
                 }
             }
+        }
 
-            stage "push stage" {
-                steps {
-                    sh 'docker push studentapp-db'
-                    sh 'docker push studentapp-be'
-                    sh 'docker push studentapp-fe'
-                }
+        stage "Push stage" {
+            steps {
+                sh 'docker push ${REGISTRY}/studentapp-db:latest'
+                sh 'docker push ${REGISTRY}/studentapp-be:latest'
+                sh 'docker push ${REGISTRY}/studentapp-fe:latest'
             }
-            
-            stage "Deploy" {
-                steps {
-                    sh 'cd Kubernetes/student-app/'
-                    sh 'kubectl apply -f KUbernetes/student-app/'
+        }
+
+        stage "Deploy" {
+            steps {
+                dir('KUbernetes/Studentapp') {
+                    sh 'kubectl apply -f Database/'
+                    sh 'kubectl apply -f Backend/'
+                    sh 'kubectl apply -f Frontend/'
                 }
             }
         }
     }
+}
