@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: backend
-        image: ishika979/studentapp-backend:latest
+        image: docker.io/ishika979/studentapp-be:latest
         ports:
         - containerPort: 8080

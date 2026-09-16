@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: ishika979/studentapp-frontend:latest
+        image: docker.io/ishika979/studentapp-fe:latest
         ports:
         - containerPort: 80
         env:
