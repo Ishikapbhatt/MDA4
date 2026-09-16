@@ -7,7 +7,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-ENV TOMCAT_VERSION=9.0.120
+ENV TOMCAT_VERSION=9.0.91
 ENV CATALINA_HOME=/opt/tomcat
 ENV PATH="$PATH:$CATALINA_HOME/bin"
 
