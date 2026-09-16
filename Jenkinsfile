@@ -8,13 +8,13 @@ pipeline {
     }
 
     stages {
-        stage "Pull stage" {
+        stage('Pull stage') {
             steps {
                 git url: 'https://github.com/Ishikapbhatt/MDA4.git', branch: 'main'
             }
         }
 
-        stage "Infrastructure" {
+        stage('Infrastructure') {
             steps {
                 dir('Terraform/eks-modules') {
                     sh 'terraform init'
@@ -24,7 +24,7 @@ pipeline {
             }
         }
 
-        stage "Build" {
+        stage('Build') {
             steps {
                 dir('docker/studentapp/database') {
                     sh 'docker build -t ${REGISTRY}/studentapp-db:latest .'
@@ -38,7 +38,7 @@ pipeline {
             }
         }
 
-        stage "Push stage" {
+        stage('Push stage') {
             steps {
                 sh 'docker push ${REGISTRY}/studentapp-db:latest'
                 sh 'docker push ${REGISTRY}/studentapp-be:latest'
@@ -46,7 +46,7 @@ pipeline {
             }
         }
 
-        stage "Deploy" {
+        stage('Deploy') {
             steps {
                 dir('KUbernetes/Studentapp') {
                     sh 'kubectl apply -f Database/'
