@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        PATH = "/opt/homebrew/bin:${env.PATH}"
+        PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
         REGISTRY = 'docker.io/ishika979'
         aws_access_key = credentials('aws-access-key')
         aws_secret_key = credentials('aws-secret-key')
