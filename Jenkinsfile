@@ -32,13 +32,13 @@ pipeline {
         stage('Build') {
             steps {
                 dir('docker/studentapp/database') {
-                    sh 'docker buildx build --platform linux/amd64 -t ${REGISTRY}/studentapp-db:latest .'
+                    sh 'docker build --platform linux/amd64 -t ${REGISTRY}/studentapp-db:latest .'
                 }
                 dir('docker/studentapp/backend') {
-                    sh 'docker buildx build --platform linux/amd64 -t ${REGISTRY}/studentapp-be:latest .'
+                    sh 'docker build --platform linux/amd64 -t ${REGISTRY}/studentapp-be:latest .'
                 }
                 dir('docker/studentapp/frontend') {
-                    sh 'docker buildx build --platform linux/amd64 -t ${REGISTRY}/studentapp-fe:latest .'
+                    sh 'docker build --platform linux/amd64 -t ${REGISTRY}/studentapp-fe:latest .'
                 }
             }
         }
