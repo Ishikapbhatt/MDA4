@@ -9,13 +9,19 @@ pipeline {
     }
 
     options {
-        skipDefaultCheckout true
+        skipDefaultCheckout false
     }
 
     stages {
         stage('Pull stage') {
             steps {
                 git url: 'https://github.com/Ishikapbhatt/MDA4.git', branch: 'main'
+            }
+        }
+
+        stage('SonarQube') {
+            steps {
+                sh 'docker-compose -f docker-compose-sonarqube.yml up -d'
             }
         }
 
