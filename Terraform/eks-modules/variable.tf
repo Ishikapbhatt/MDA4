@@ -26,7 +26,7 @@ variable "eks_cluster_endpoint_public_access_cidrs" {
 variable "eks_cluster_node_group_subnets" {
   description = "Subnet IDs for the EKS node group"
   type        = list(string)
-  default     = []
+  default     = ["subnet-0a15adf098b5c91af", "subnet-0cecccb07d0fe85bf"]
 }
 
 variable "eks_cluster_node_group_desired_size" {
@@ -105,6 +105,24 @@ variable "private_subnets" {
   description = "List of private subnet CIDR blocks"
   type        = list(string)
   default     = ["10.0.20.0/24"]
+}
+
+variable "existing_vpc_id" {
+  description = "Existing VPC ID to use instead of creating new one"
+  type        = string
+  default     = ""
+}
+
+variable "existing_public_subnet_id" {
+  description = "Existing public subnet ID"
+  type        = string
+  default     = ""
+}
+
+variable "existing_private_subnet_id" {
+  description = "Existing private subnet ID"
+  type        = string
+  default     = ""
 }
 
 variable "availability_zones" {

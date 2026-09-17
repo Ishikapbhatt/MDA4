@@ -31,7 +31,7 @@ module "eks" {
   eks_cluster_endpoint_private = var.eks_cluster_endpoint_private
   eks_cluster_endpoint_public = var.eks_cluster_endpoint_public
   eks_cluster_endpoint_public_access_cidrs = var.eks_cluster_endpoint_public_access_cidrs
-  eks_cluster_node_group_subnets = [module.vpc.public_subnet_id, module.vpc.private_subnet_id]
+  eks_cluster_node_group_subnets = var.eks_cluster_node_group_subnets
   eks_cluster_node_group_desired_size = var.eks_cluster_node_group_desired_size
   eks_cluster_node_group_max_size = var.eks_cluster_node_group_max_size
   eks_cluster_node_group_min_size = var.eks_cluster_node_group_min_size
