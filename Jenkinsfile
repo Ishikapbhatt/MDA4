@@ -19,11 +19,6 @@ pipeline {
             }
         }
 
-        stage('SonarQube') {
-            steps {
-                sh 'docker-compose -f docker-compose-sonarqube.yml up -d'
-            }
-        }
 
         stage('Infrastructure') {
             steps {
